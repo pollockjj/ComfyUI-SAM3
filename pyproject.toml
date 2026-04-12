@@ -7,7 +7,6 @@ dependencies = [
     "comfy-3d-viewers==0.2.41",
     "cc-torch",
     "torch-generic-nms",
-    "flash-attn",
     "safetensors>=0.4.0",
     "timm",
     "ftfy",
@@ -42,12 +41,11 @@ share_torch = true
 
 [tool.comfy.isolation.cuda_wheels]
 index_url = "https://pozzettiandrea.github.io/cuda-wheels/"
-packages = ["cc-torch", "torch-generic-nms", "flash-attn"]
+packages = ["cc-torch", "torch-generic-nms"]
 
 [tool.comfy.isolation.cuda_wheels.package_map]
 cc_torch = "cc-torch"
 torch_generic_nms = "torch-generic-nms"
-flash_attn = "flash-attn"
 
 [project.urls]
 Repository = "https://github.com/PozzettiAndrea/ComfyUI-SAM3"

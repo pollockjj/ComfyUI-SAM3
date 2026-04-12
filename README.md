@@ -16,6 +16,11 @@ https://github.com/user-attachments/assets/323df482-1f05-4c69-8681-9bfb4073f766
 
 Install via ComfyUI Manager.
 
+## Ownership
+
+This repository is now maintained in the Comfy stack at `pollockjj/ComfyUI-SAM3`.
+Original pack authorship and upstream credit remain with Andrea Pozzetti.
+
 ### Examples
 
 ![bbox](docs/bbox.png)
@@ -31,5 +36,6 @@ https://github.com/user-attachments/assets/57721801-f599-4ef1-8647-13468211ef63
 ## Credits
 
 - **SAM3**: Meta AI Research (https://github.com/facebookresearch/sam3)
-- **ComfyUI Integration**: ComfyUI-SAM3
+- **Original ComfyUI Integration**: Andrea Pozzetti (https://github.com/PozzettiAndrea/ComfyUI-SAM3)
+- **Current Maintainer / Repo Owner**: Comfy stack (`pollockjj/ComfyUI-SAM3`)
 - **Interactive Points Editor**: Adapted from [ComfyUI-KJNodes](https://github.com/kijai/ComfyUI-KJNodes) by kijai (Apache 2.0 License). The SAM3PointsEditor node is based on the PointsEditor implementation from KJNodes, simplified for SAM3-specific point-based segmentation.

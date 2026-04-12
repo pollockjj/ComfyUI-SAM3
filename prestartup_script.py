@@ -1,12 +1,34 @@
 """ComfyUI-SAM3 prestartup asset copy."""
 
+import os
 from pathlib import Path
 import shutil
 
 
-SCRIPT_DIR = Path(__file__).resolve().parent
-COMFYUI_DIR = SCRIPT_DIR.parent.parent
+SCRIPT_PATH = Path(__file__)
+SCRIPT_DIR = SCRIPT_PATH.resolve().parent
 ASSETS_DIR = SCRIPT_DIR / "assets"
+
+
+def _find_comfyui_dir() -> Path:
+    comfy_root = os.environ.get("COMFY_ROOT")
+    if comfy_root:
+        return Path(comfy_root)
+
+    candidates = [SCRIPT_PATH.absolute(), SCRIPT_PATH.resolve()]
+    for candidate in candidates:
+        parents = [candidate.parent, *candidate.parents]
+        for parent in parents:
+            if parent.name == "custom_nodes":
+                return parent.parent
+            if (parent / "main.py").exists() and (parent / "folder_paths.py").exists():
+                return parent
+
+    # Fallback for legacy in-tree installs.
+    return SCRIPT_DIR.parent.parent
+
+
+COMFYUI_DIR = _find_comfyui_dir()
 INPUT_DIR = COMFYUI_DIR / "input"
 
 

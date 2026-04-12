@@ -4,6 +4,7 @@ from .nodes.sam3_interactive import NODE_CLASS_MAPPINGS as INTERACTIVE_NODE_CLAS
 from .nodes.sam3_interactive import (
     NODE_DISPLAY_NAME_MAPPINGS as INTERACTIVE_NODE_DISPLAY_NAME_MAPPINGS,
 )
+from .nodes.sam3_interactive import _api_segment_one
 from .nodes.sam3_video_nodes import NODE_CLASS_MAPPINGS as VIDEO_NODE_CLASS_MAPPINGS
 from .nodes.sam3_video_nodes import NODE_DISPLAY_NAME_MAPPINGS as VIDEO_NODE_DISPLAY_NAME_MAPPINGS
 from .nodes.segmentation import NODE_CLASS_MAPPINGS as SEGMENTATION_NODE_CLASS_MAPPINGS
@@ -23,4 +24,8 @@ NODE_DISPLAY_NAME_MAPPINGS.update(VIDEO_NODE_DISPLAY_NAME_MAPPINGS)
 NODE_DISPLAY_NAME_MAPPINGS.update(INTERACTIVE_NODE_DISPLAY_NAME_MAPPINGS)
 
 WEB_DIRECTORY = "./web"
-__all__ = ["NODE_CLASS_MAPPINGS", "NODE_DISPLAY_NAME_MAPPINGS", "WEB_DIRECTORY"]
+ROUTES = [
+    {"method": "POST", "path": "/sam3/interactive_segment_one", "handler": _api_segment_one},
+]
+
+__all__ = ["NODE_CLASS_MAPPINGS", "NODE_DISPLAY_NAME_MAPPINGS", "WEB_DIRECTORY", "ROUTES"]

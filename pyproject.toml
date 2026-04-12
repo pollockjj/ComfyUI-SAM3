@@ -10,6 +10,7 @@ dependencies = [
     "safetensors>=0.4.0",
     "timm",
     "ftfy",
+    "pyyaml",
     "regex",
     "iopath",
     "huggingface_hub",
@@ -38,6 +39,7 @@ Icon = ""
 [tool.comfy.isolation]
 can_isolate = true
 share_torch = true
+share_torch_no_deps = ["timm"]
 
 [tool.comfy.isolation.cuda_wheels]
 index_url = "https://pozzettiandrea.github.io/cuda-wheels/"

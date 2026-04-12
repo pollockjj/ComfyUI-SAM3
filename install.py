@@ -1,2 +1,1 @@
-from comfy_env import install
-install()
+"""SAM3 installs through Comfy isolation metadata in pyproject.toml."""

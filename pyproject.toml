@@ -3,11 +3,51 @@ name = "comfyui-sam3"
 description = "SAM 3 (Segment Anything Model 3) integration for ComfyUI. Image and video segmentation with text prompts, boxes, and points"
 version = "0.1.6"
 license = {file = "LICENSE"}
+dependencies = [
+    "comfy-3d-viewers==0.2.41",
+    "cc-torch",
+    "torch-generic-nms",
+    "safetensors>=0.4.0",
+    "timm",
+    "ftfy",
+    "pyyaml",
+    "regex",
+    "iopath",
+    "huggingface_hub",
+    "einops",
+    "opencv-python",
+    "psutil",
+    "pycocotools",
+    "scikit-image",
+    "numpy",
+    "pillow",
+    "tqdm",
+    "typing_extensions",
+    "av",
+    "comfy-aimdo",
+    "comfy-kitchen",
+]
+
+[tool.setuptools]
+packages = []
 
 [tool.comfy]
-PublisherId = "pznodes"
+PublisherId = "comfyorg"
 DisplayName = "SAM3"
 Icon = ""
 
+[tool.comfy.isolation]
+can_isolate = true
+share_torch = true
+share_torch_no_deps = ["timm"]
+
+[tool.comfy.isolation.cuda_wheels]
+index_url = "https://pozzettiandrea.github.io/cuda-wheels/"
+packages = ["cc-torch", "torch-generic-nms"]
+
+[tool.comfy.isolation.cuda_wheels.package_map]
+cc_torch = "cc-torch"
+torch_generic_nms = "torch-generic-nms"
+
 [project.urls]
-Repository = "https://github.com/PozzettiAndrea/ComfyUI-SAM3"
+Repository = "https://github.com/pollockjj/ComfyUI-SAM3"

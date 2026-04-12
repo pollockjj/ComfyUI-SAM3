@@ -32,7 +32,7 @@ dependencies = [
 packages = []
 
 [tool.comfy]
-PublisherId = "pznodes"
+PublisherId = "comfyorg"
 DisplayName = "SAM3"
 Icon = ""
 
@@ -50,4 +50,4 @@ cc_torch = "cc-torch"
 torch_generic_nms = "torch-generic-nms"
 
 [project.urls]
-Repository = "https://github.com/PozzettiAndrea/ComfyUI-SAM3"
+Repository = "https://github.com/pollockjj/ComfyUI-SAM3"

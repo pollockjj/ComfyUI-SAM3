@@ -1,0 +1,77 @@
+{
+  "1": {
+    "inputs": {
+      "image": "image.png"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Load Image"
+    }
+  },
+  "12": {
+    "inputs": {
+      "precision": "auto",
+      "compile": false
+    },
+    "class_type": "LoadSAM3Model",
+    "_meta": {
+      "title": "(Down)Load SAM3 Model"
+    }
+  },
+  "26": {
+    "inputs": {
+      "multi_prompts_store": "[{\"positive_points\":[{\"x\":4869.659359336342,\"y\":2830.08974446613}],\"negative_points\":[{\"x\":4450.3095042298855,\"y\":2488.7626014967177},{\"x\":4450.3095042298855,\"y\":2488.7626014967177}],\"positive_boxes\":[{\"x1\":4372.29092653566,\"y1\":2215.700887121188,\"x2\":5289.009214442798,\"y2\":3298.195540538467}],\"negative_boxes\":[],\"name\":\"Prompt 1\"}]",
+      "canvas": "",
+      "sam3_model_config": [
+        "12",
+        0
+      ],
+      "image": [
+        "1",
+        0
+      ]
+    },
+    "class_type": "SAM3InteractiveCollector",
+    "_meta": {
+      "title": "SAM3 Interactive Collector"
+    }
+  },
+  "28": {
+    "inputs": {
+      "filename_prefix": "Sam3_pyisolate_image",
+      "images": [
+        "26",
+        1
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "29": {
+    "inputs": {
+      "mask": [
+        "26",
+        0
+      ]
+    },
+    "class_type": "MaskToImage",
+    "_meta": {
+      "title": "Convert Mask to Image"
+    }
+  },
+  "30": {
+    "inputs": {
+      "filename_prefix": "ComfyUI",
+      "images": [
+        "29",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  }
+}

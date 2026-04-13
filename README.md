@@ -4,9 +4,9 @@ ComfyUI integration for Meta's SAM3 (Segment Anything Model 3). Open-vocabulary 
 
 ## Installation
 
-This node needs one extra setup step after you add the repo to ComfyUI.
+This node does a little more setup than a typical custom node.
 
-ComfyUI Manager can fetch the repo for you, but SAM3 also needs this repo's `install.py` script to finish setup inside your ComfyUI Python environment.
+After you add the repo to ComfyUI, the first launch will finish setup automatically inside your ComfyUI Python environment.
 
 The installer is intentionally loud. It tells you what it is about to do, then tells you what finished, so you can follow the whole setup as it runs.
 
@@ -22,11 +22,11 @@ The install script does four things:
 3. Copies this repo's bundled example assets into your ComfyUI `input/` directory
 4. Writes an install receipt that the uninstall tool uses to remove only installer-owned artifacts
 
-Right now, ComfyUI startup also copies those bundled assets back into `input/` when the node loads.
+On first launch, ComfyUI runs this setup automatically. Later launches only run it again if something it installed is missing.
 
 ### Install
 
-If you use ComfyUI Manager, treat it as the repo fetch step only. The full SAM3 install still requires this repo's installer:
+If you want to run setup yourself instead of waiting for first launch, you can still run the installer directly:
 
 ```bash
 COMFY_ROOT=/path/to/ComfyUI /path/to/ComfyUI/.venv/bin/python install.py

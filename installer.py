@@ -7,6 +7,7 @@ import shutil
 import subprocess
 import sys
 import urllib.request
+from importlib import metadata
 from pathlib import Path
 
 
@@ -55,6 +56,47 @@ def read_receipt() -> dict[str, object] | None:
     if not RECEIPT_FILE.exists():
         return None
     return json.loads(RECEIPT_FILE.read_text())
+
+
+def _expected_asset_paths(comfy_root: Path) -> tuple[Path, ...]:
+    return tuple(
+        (comfy_root / "input" / source.name)
+        for source in sorted(ASSETS_DIR.iterdir())
+        if source.is_file()
+    )
+
+
+def _receipt_asset_paths(receipt: dict[str, object] | None, comfy_root: Path) -> tuple[Path, ...]:
+    if receipt and receipt.get("copied_assets"):
+        return tuple(Path(path) for path in receipt["copied_assets"])
+    return _expected_asset_paths(comfy_root)
+
+
+def _missing_managed_packages(package_names: tuple[str, ...]) -> list[str]:
+    missing: list[str] = []
+    for package_name in package_names:
+        try:
+            metadata.distribution(package_name)
+        except metadata.PackageNotFoundError:
+            missing.append(package_name)
+    return missing
+
+
+def install_needed(comfy_root: Path) -> tuple[bool, list[str]]:
+    reasons: list[str] = []
+    receipt = read_receipt()
+    if receipt is None:
+        reasons.append(f"missing install receipt {RECEIPT_FILE}")
+    package_names = tuple(receipt.get("managed_packages", MANAGED_PACKAGES)) if receipt else MANAGED_PACKAGES
+    missing_packages = _missing_managed_packages(package_names)
+    if missing_packages:
+        reasons.append(f"missing managed packages: {', '.join(missing_packages)}")
+    missing_assets = [path for path in _receipt_asset_paths(receipt, comfy_root) if not path.exists()]
+    if missing_assets:
+        reasons.append(
+            "missing bundled assets: " + ", ".join(str(path) for path in missing_assets)
+        )
+    return (len(reasons) > 0, reasons)
 
 
 def detect_comfy_root() -> Path:
@@ -223,6 +265,20 @@ def install_everything() -> dict[str, object]:
     return receipt
 
 
+def ensure_installed() -> dict[str, object]:
+    comfy_root = detect_comfy_root()
+    needed, reasons = install_needed(comfy_root)
+    if not needed:
+        log_action("startup check: SAM3 install already complete")
+        existing_receipt = read_receipt()
+        assert existing_receipt is not None
+        return existing_receipt
+    for reason in reasons:
+        log_action(f"startup check: {reason}")
+    log_action("startup check: completing SAM3 setup automatically")
+    return install_everything()
+
+
 def uninstall_everything() -> dict[str, object]:
     comfy_root = detect_comfy_root()
     log_action(f"resolved COMFY_ROOT={comfy_root}")
@@ -230,9 +286,7 @@ def uninstall_everything() -> dict[str, object]:
     prior_receipt = read_receipt()
     package_names = tuple(prior_receipt.get("managed_packages", MANAGED_PACKAGES)) if prior_receipt else MANAGED_PACKAGES
     asset_paths = tuple(prior_receipt.get("copied_assets", [])) if prior_receipt else tuple(
-        str((comfy_root / "input" / source.name))
-        for source in sorted(ASSETS_DIR.iterdir())
-        if source.is_file()
+        str(path) for path in _expected_asset_paths(comfy_root)
     )
     package_receipt = uninstall_packages(package_names)
     asset_receipt = remove_assets(asset_paths, comfy_root)

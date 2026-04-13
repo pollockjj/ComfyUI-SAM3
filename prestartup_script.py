@@ -10,4 +10,4 @@ INSTALLER = importlib.util.module_from_spec(SPEC)
 assert SPEC is not None and SPEC.loader is not None
 SPEC.loader.exec_module(INSTALLER)
 
-INSTALLER.copy_assets(INSTALLER.detect_comfy_root())
+INSTALLER.ensure_installed()

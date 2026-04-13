@@ -2,9 +2,11 @@
 
 ComfyUI integration for Meta's SAM3 (Segment Anything Model 3). Open-vocabulary image and video segmentation using natural language text prompts.
 
-## Installation
+## Installation if SAM3 Extras Required for this Node Pack to function
 
 This node does a little more setup than a typical custom node.
+
+SAM3 needs two extra libraries to run in vanilla ComfyUI, `cc-torch` and `torch-generic-nms`, plus `flash-attn` as an optional speedup when it is available on your system.
 
 After you add the repo to ComfyUI, the first launch will finish setup automatically inside your ComfyUI Python environment.
 
@@ -18,9 +20,9 @@ The install script does three things:
 
    | Extra wheel | ComfyOrg Hosting | 3rd Party Hosting |
    |:--|:--|:--|
-   | `cc-torch` | Not hosted yet | [PozzettiAndrea/cuda-wheels `cc_torch-latest`](https://github.com/PozzettiAndrea/cuda-wheels/releases/tag/cc_torch-latest) |
-   | `torch-generic-nms` | Not hosted yet | [PozzettiAndrea/cuda-wheels `torch_generic_nms-latest`](https://github.com/PozzettiAndrea/cuda-wheels/releases/tag/torch_generic_nms-latest) |
-   | `flash-attn` | Not hosted yet | [PozzettiAndrea/cuda-wheels `flash_attn-latest`](https://github.com/PozzettiAndrea/cuda-wheels/releases/tag/flash_attn-latest) |
+   | `cc-torch` | [pollockjj/wheels `cc_torch-latest`](https://github.com/pollockjj/wheels/releases/tag/cc_torch-latest) | [PozzettiAndrea/cuda-wheels `cc_torch-latest`](https://github.com/PozzettiAndrea/cuda-wheels/releases/tag/cc_torch-latest) |
+   | `torch-generic-nms` | [pollockjj/wheels `torch_generic_nms-latest`](https://github.com/pollockjj/wheels/releases/tag/torch_generic_nms-latest) | [PozzettiAndrea/cuda-wheels `torch_generic_nms-latest`](https://github.com/PozzettiAndrea/cuda-wheels/releases/tag/torch_generic_nms-latest) |
+   | `flash-attn` | [pollockjj/wheels `flash_attn-latest`](https://github.com/pollockjj/wheels/releases/tag/flash_attn-latest) | [PozzettiAndrea/cuda-wheels `flash_attn-latest`](https://github.com/PozzettiAndrea/cuda-wheels/releases/tag/flash_attn-latest) |
 
 2. Copies these bundled example files into your ComfyUI `input/` directory:
 
@@ -34,7 +36,7 @@ The install script does three things:
 
 ### Uninstall
 
-If you want to uninstall SAM3, the uninstaller is in the root of this custom node:
+If you want to uninstall the extra packages and files SAM3 adds, the uninstaller is in the root of this custom node:
 
 ```bash
 cd /path/to/ComfyUI/custom_nodes/ComfyUI-SAM3

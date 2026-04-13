@@ -5,9 +5,9 @@ version = "0.1.6"
 license = {file = "LICENSE"}
 
 [tool.comfy]
-PublisherId = "pznodes"
+PublisherId = "comfyorg"
 DisplayName = "SAM3"
 Icon = ""
 
 [project.urls]
-Repository = "https://github.com/PozzettiAndrea/ComfyUI-SAM3"
+Repository = "https://github.com/pollockjj/ComfyUI-SAM3"

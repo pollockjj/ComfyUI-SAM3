@@ -8,14 +8,13 @@ This node does a little more setup than a typical custom node.
 
 After you add the repo to ComfyUI, the first launch will finish setup automatically inside your ComfyUI Python environment.
 
-The installer is intentionally loud. It tells you what it is about to do, then tells you what finished, so you can follow the whole setup as it runs.
+The installer tells you what it is about to do, then tells you what finished, so you can follow the whole setup as it runs via the console.
 
 ### What the installer does
 
-The install script does four things:
+The install script does three things:
 
-1. Installs the Python packages listed in `requirements.txt`
-2. Installs these extra prebuilt wheels outside `requirements.txt`:
+1. Installs these extra prebuilt wheels outside `requirements.txt`:
 
    | Extra wheel | ComfyOrg Hosting | 3rd Party Hosting |
    |:--|:--|:--|
@@ -23,20 +22,15 @@ The install script does four things:
    | `torch-generic-nms` | Not hosted yet | [PozzettiAndrea/cuda-wheels `torch_generic_nms-latest`](https://github.com/PozzettiAndrea/cuda-wheels/releases/tag/torch_generic_nms-latest) |
    | `flash-attn` | Not hosted yet | [PozzettiAndrea/cuda-wheels `flash_attn-latest`](https://github.com/PozzettiAndrea/cuda-wheels/releases/tag/flash_attn-latest) |
 
-3. Copies this repo's bundled example assets into your ComfyUI `input/` directory
+2. Copies these bundled example files into your ComfyUI `input/` directory:
+
+   | Source file in this repo | Copied to | Removed by `uninstall.py` |
+   |:--|:--|:--|
+   | `assets/bedroom.mp4` | `ComfyUI/input/bedroom.mp4` | Yes |
+   | `assets/example_image.jpg` | `ComfyUI/input/example_image.jpg` | Yes |
+   | `assets/groceries.jpg` | `ComfyUI/input/groceries.jpg` | Yes |
+   | `assets/image.png` | `ComfyUI/input/image.png` | Yes |
 4. Writes an install receipt that the uninstall tool uses to remove only installer-owned artifacts
-
-These are wheel installs, not source builds. Right now they come from third-party hosting. ComfyOrg hosting is not live yet.
-
-On first launch, ComfyUI runs this setup automatically. Later launches only run it again if something it installed is missing.
-
-### Install
-
-If you want to run setup yourself instead of waiting for first launch, you can still run the installer directly:
-
-```bash
-COMFY_ROOT=/path/to/ComfyUI /path/to/ComfyUI/.venv/bin/python install.py
-```
 
 ### Uninstall
 

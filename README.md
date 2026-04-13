@@ -34,13 +34,14 @@ The install script does three things:
 
 ### Uninstall
 
-This repo includes a matching uninstall tool:
+If you want to uninstall SAM3, the uninstaller is in the root of this custom node:
 
 ```bash
-COMFY_ROOT=/path/to/ComfyUI /path/to/ComfyUI/.venv/bin/python uninstall.py
+cd /path/to/ComfyUI/custom_nodes/ComfyUI-SAM3
+./uninstall.py
 ```
 
-The uninstall tool is also loud. It prints every package removal, file removal, and cleanup step as it runs. It removes the installer-owned packages and the bundled assets it copied into `ComfyUI/input/`, then removes its install receipt.
+The uninstaller prints each removal step as it runs. It removes the three extra wheels, removes the example files listed above from `ComfyUI/input/`, and removes its install receipt.
 
 ### Examples
 

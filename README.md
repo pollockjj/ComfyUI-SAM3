@@ -15,17 +15,18 @@ The installer is intentionally loud. It tells you what it is about to do, then t
 The install script does four things:
 
 1. Installs the Python packages listed in `requirements.txt`
-2. Installs three extra prebuilt wheels outside `requirements.txt`
+2. Installs these extra prebuilt wheels outside `requirements.txt`:
+
+   | Extra wheel | ComfyOrg Hosting | 3rd Party Hosting |
+   |:--|:--|:--|
+   | `cc-torch` | Not hosted yet | [PozzettiAndrea/cuda-wheels `cc_torch-latest`](https://github.com/PozzettiAndrea/cuda-wheels/releases/tag/cc_torch-latest) |
+   | `torch-generic-nms` | Not hosted yet | [PozzettiAndrea/cuda-wheels `torch_generic_nms-latest`](https://github.com/PozzettiAndrea/cuda-wheels/releases/tag/torch_generic_nms-latest) |
+   | `flash-attn` | Not hosted yet | [PozzettiAndrea/cuda-wheels `flash_attn-latest`](https://github.com/PozzettiAndrea/cuda-wheels/releases/tag/flash_attn-latest) |
+
 3. Copies this repo's bundled example assets into your ComfyUI `input/` directory
 4. Writes an install receipt that the uninstall tool uses to remove only installer-owned artifacts
 
-These extra packages are installed as wheels, not source builds. Right now they come from third-party hosting. ComfyOrg hosting is not live yet.
-
-| Extra wheel | ComfyOrg Hosting | 3rd Party Hosting |
-|:--|:--|:--|
-| `cc-torch` | Not hosted yet | [PozzettiAndrea/cuda-wheels `cc_torch-latest`](https://github.com/PozzettiAndrea/cuda-wheels/releases/tag/cc_torch-latest) |
-| `torch-generic-nms` | Not hosted yet | [PozzettiAndrea/cuda-wheels `torch_generic_nms-latest`](https://github.com/PozzettiAndrea/cuda-wheels/releases/tag/torch_generic_nms-latest) |
-| `flash-attn` | Not hosted yet | [PozzettiAndrea/cuda-wheels `flash_attn-latest`](https://github.com/PozzettiAndrea/cuda-wheels/releases/tag/flash_attn-latest) |
+These are wheel installs, not source builds. Right now they come from third-party hosting. ComfyOrg hosting is not live yet.
 
 On first launch, ComfyUI runs this setup automatically. Later launches only run it again if something it installed is missing.
 

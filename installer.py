@@ -7,6 +7,7 @@ import shutil
 import subprocess
 import sys
 import urllib.request
+import urllib.error
 from importlib import metadata
 from pathlib import Path
 
@@ -15,10 +16,19 @@ REPO_ROOT = Path(__file__).resolve().parent
 ASSETS_DIR = REPO_ROOT / "assets"
 RECEIPT_FILE = REPO_ROOT / ".sam3_install_receipt.json"
 SITE_PACKAGES = Path(sys.prefix) / f"lib/python{sys.version_info.major}.{sys.version_info.minor}/site-packages"
-SPECIAL_WHEEL_INDEXES = {
-    "cc-torch": "https://pozzettiandrea.github.io/cuda-wheels/cc-torch/",
-    "torch-generic-nms": "https://pozzettiandrea.github.io/cuda-wheels/torch-generic-nms/",
-    "flash-attn": "https://pozzettiandrea.github.io/cuda-wheels/flash-attn/",
+SPECIAL_WHEEL_INDEX_CANDIDATES = {
+    "cc-torch": (
+        "https://pollockjj.github.io/wheels/cc-torch/",
+        "https://pozzettiandrea.github.io/cuda-wheels/cc-torch/",
+    ),
+    "torch-generic-nms": (
+        "https://pollockjj.github.io/wheels/torch-generic-nms/",
+        "https://pozzettiandrea.github.io/cuda-wheels/torch-generic-nms/",
+    ),
+    "flash-attn": (
+        "https://pollockjj.github.io/wheels/flash-attn/",
+        "https://pozzettiandrea.github.io/cuda-wheels/flash-attn/",
+    ),
 }
 
 TORCH_TAG_PREFERENCES = {
@@ -132,10 +142,21 @@ def copy_assets(comfy_root: Path) -> list[Path]:
     return copied
 
 
-def _read_index(package_name: str) -> str:
-    url = SPECIAL_WHEEL_INDEXES[package_name]
-    with urllib.request.urlopen(url) as response:
-        return response.read().decode("utf-8")
+def _read_index(package_name: str) -> tuple[str, str]:
+    last_error: Exception | None = None
+    for url in SPECIAL_WHEEL_INDEX_CANDIDATES[package_name]:
+        try:
+            log_action(f"checking wheel index {url}")
+            with urllib.request.urlopen(url) as response:
+                html = response.read().decode("utf-8")
+            log_action(f"using wheel index {url}")
+            return url, html
+        except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError) as exc:
+            log_action(f"wheel index unavailable {url}: {exc}")
+            last_error = exc
+    raise RuntimeError(
+        f"No wheel index available for {package_name}. Last error: {last_error}"
+    )
 
 
 def _select_linux_wheel(package_name: str, html: str) -> str:
@@ -169,8 +190,8 @@ def _select_linux_wheel(package_name: str, html: str) -> str:
 
 def resolve_special_wheel_urls() -> dict[str, str]:
     resolved: dict[str, str] = {}
-    for package_name in SPECIAL_WHEEL_INDEXES:
-        html = _read_index(package_name)
+    for package_name in SPECIAL_WHEEL_INDEX_CANDIDATES:
+        _, html = _read_index(package_name)
         resolved[package_name] = _select_linux_wheel(package_name, html)
     return resolved
 

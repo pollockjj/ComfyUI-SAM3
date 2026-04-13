@@ -13,7 +13,6 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent
 ASSETS_DIR = REPO_ROOT / "assets"
-REQUIREMENTS_FILE = REPO_ROOT / "requirements.txt"
 RECEIPT_FILE = REPO_ROOT / ".sam3_install_receipt.json"
 SITE_PACKAGES = Path(sys.prefix) / f"lib/python{sys.version_info.major}.{sys.version_info.minor}/site-packages"
 SPECIAL_WHEEL_INDEXES = {
@@ -28,18 +27,7 @@ TORCH_TAG_PREFERENCES = {
     "flash-attn": ("2.11", "2.10", "2.9"),
 }
 SPECIAL_WHEEL_PACKAGE_ORDER = ("cc-torch", "torch-generic-nms", "flash-attn")
-
-
-def _normalize_requirement_name(requirement: str) -> str:
-    return re.split(r"[<>=!~]", requirement, 1)[0].strip()
-
-
-MANAGED_REQUIREMENTS = tuple(
-    _normalize_requirement_name(line)
-    for line in REQUIREMENTS_FILE.read_text().splitlines()
-    if line.strip() and not line.lstrip().startswith("#")
-)
-MANAGED_PACKAGES = MANAGED_REQUIREMENTS + SPECIAL_WHEEL_PACKAGE_ORDER
+MANAGED_PACKAGES = SPECIAL_WHEEL_PACKAGE_ORDER
 
 
 def log_action(message: str) -> None:
@@ -72,6 +60,17 @@ def _receipt_asset_paths(receipt: dict[str, object] | None, comfy_root: Path) ->
     return _expected_asset_paths(comfy_root)
 
 
+def _receipt_managed_packages(receipt: dict[str, object] | None) -> tuple[str, ...]:
+    if receipt and receipt.get("managed_packages"):
+        receipt_packages = tuple(
+            package_name for package_name in receipt["managed_packages"]
+            if package_name in SPECIAL_WHEEL_PACKAGE_ORDER
+        )
+        if receipt_packages:
+            return receipt_packages
+    return MANAGED_PACKAGES
+
+
 def _missing_managed_packages(package_names: tuple[str, ...]) -> list[str]:
     missing: list[str] = []
     for package_name in package_names:
@@ -87,7 +86,7 @@ def install_needed(comfy_root: Path) -> tuple[bool, list[str]]:
     receipt = read_receipt()
     if receipt is None:
         reasons.append(f"missing install receipt {RECEIPT_FILE}")
-    package_names = tuple(receipt.get("managed_packages", MANAGED_PACKAGES)) if receipt else MANAGED_PACKAGES
+    package_names = _receipt_managed_packages(receipt)
     missing_packages = _missing_managed_packages(package_names)
     if missing_packages:
         reasons.append(f"missing managed packages: {', '.join(missing_packages)}")
@@ -131,15 +130,6 @@ def copy_assets(comfy_root: Path) -> list[Path]:
         log_action(f"copied asset {destination}")
         copied.append(destination)
     return copied
-
-
-def install_requirements() -> None:
-    log_action(f"installing requirements from {REQUIREMENTS_FILE} into {sys.executable}")
-    subprocess.check_call(
-        [sys.executable, "-m", "pip", "install", "-r", str(REQUIREMENTS_FILE)],
-        cwd=str(REPO_ROOT),
-    )
-    log_action(f"installed requirements from {REQUIREMENTS_FILE}")
 
 
 def _read_index(package_name: str) -> str:
@@ -251,7 +241,6 @@ def install_everything() -> dict[str, object]:
     comfy_root = detect_comfy_root()
     log_action(f"resolved COMFY_ROOT={comfy_root}")
     log_action(f"managed site-packages target={SITE_PACKAGES}")
-    install_requirements()
     wheel_urls = install_special_wheels()
     copied_assets = copy_assets(comfy_root)
     receipt = {
@@ -284,7 +273,7 @@ def uninstall_everything() -> dict[str, object]:
     log_action(f"resolved COMFY_ROOT={comfy_root}")
     log_action(f"managed site-packages target={SITE_PACKAGES}")
     prior_receipt = read_receipt()
-    package_names = tuple(prior_receipt.get("managed_packages", MANAGED_PACKAGES)) if prior_receipt else MANAGED_PACKAGES
+    package_names = _receipt_managed_packages(prior_receipt)
     asset_paths = tuple(prior_receipt.get("copied_assets", [])) if prior_receipt else tuple(
         str(path) for path in _expected_asset_paths(comfy_root)
     )

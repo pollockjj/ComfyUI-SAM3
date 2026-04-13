@@ -18,8 +18,10 @@ import threading
 import numpy as np
 import torch
 from PIL import Image
+from aiohttp import web
 
 import comfy.utils
+from server import PromptServer
 
 from comfy_api.latest import io
 
@@ -34,6 +36,7 @@ _INTERACTIVE_CACHE = {}
 
 # Serializes GPU work from parallel per-prompt requests
 _SEGMENT_LOCK = threading.Lock()
+_ROUTES_REGISTERED = False
 
 
 class SAM3PointCollector(io.ComfyNode):
@@ -854,6 +857,21 @@ def _api_segment_one(body: dict) -> dict:
 ROUTES = [
     {"method": "POST", "path": "/sam3/interactive_segment_one", "handler": "_api_segment_one"},
 ]
+
+
+def register_prompt_routes():
+    global _ROUTES_REGISTERED
+    if _ROUTES_REGISTERED:
+        return
+
+    @PromptServer.instance.routes.post("/sam3/interactive_segment_one")
+    async def sam3_interactive_segment_one(request):
+        body = await request.json()
+        payload = _api_segment_one(body)
+        status = int(payload.pop("_status", 200))
+        return web.json_response(payload, status=status)
+
+    _ROUTES_REGISTERED = True
 
 
 # Node mappings for ComfyUI registration

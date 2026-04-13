@@ -12,8 +12,6 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent
 ASSETS_DIR = REPO_ROOT / "assets"
 REQUIREMENTS_FILE = REPO_ROOT / "requirements.txt"
-MULTIBAND_REPO_URL = "https://github.com/PozzettiAndrea/ComfyUI-Multiband"
-
 SPECIAL_WHEEL_INDEXES = {
     "cc-torch": "https://pozzettiandrea.github.io/cuda-wheels/cc-torch/",
     "torch-generic-nms": "https://pozzettiandrea.github.io/cuda-wheels/torch-generic-nms/",
@@ -57,19 +55,6 @@ def copy_assets(comfy_root: Path) -> list[Path]:
         shutil.copy2(source, destination)
         copied.append(destination)
     return copied
-
-
-def ensure_multiband(comfy_root: Path) -> Path:
-    custom_nodes_dir = comfy_root / "custom_nodes"
-    custom_nodes_dir.mkdir(parents=True, exist_ok=True)
-    target_dir = custom_nodes_dir / "ComfyUI-Multiband"
-    if target_dir.exists():
-        return target_dir
-    subprocess.check_call(
-        ["git", "clone", "--depth", "1", MULTIBAND_REPO_URL, str(target_dir)],
-        cwd=str(custom_nodes_dir),
-    )
-    return target_dir
 
 
 def install_requirements() -> None:
@@ -136,11 +121,9 @@ def install_everything() -> dict[str, object]:
     comfy_root = detect_comfy_root()
     install_requirements()
     wheel_urls = install_special_wheels()
-    multiband_path = ensure_multiband(comfy_root)
     copied_assets = copy_assets(comfy_root)
     return {
         "comfy_root": str(comfy_root),
-        "multiband_path": str(multiband_path),
         "wheel_urls": wheel_urls,
         "copied_assets": [str(path) for path in copied_assets],
     }

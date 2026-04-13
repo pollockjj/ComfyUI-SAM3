@@ -15,12 +15,20 @@ The installer is intentionally loud. It tells you what it is about to do, then t
 The install script does four things:
 
 1. Installs the Python packages listed in `requirements.txt`
-2. Installs three extra wheels outside `requirements.txt`
+2. Installs three extra prebuilt wheels outside `requirements.txt`
    - `cc-torch`
    - `torch-generic-nms`
    - `flash-attn`
 3. Copies this repo's bundled example assets into your ComfyUI `input/` directory
 4. Writes an install receipt that the uninstall tool uses to remove only installer-owned artifacts
+
+These are wheel installs, not source builds. Right now the installer pulls them from third-party hosting. ComfyOrg hosting is not live yet.
+
+| Package | ComfyOrg Hosting | 3rd Party Hosting |
+|:--|:--|:--|
+| `cc-torch` | Not hosted yet | [`cc_torch-0.2+cu130torch2.11-cp312-cp312-manylinux_2_34_x86_64.manylinux_2_35_x86_64.whl`](https://github.com/PozzettiAndrea/cuda-wheels/releases/download/cc_torch-latest/cc_torch-0.2%2Bcu130torch2.11-cp312-cp312-manylinux_2_34_x86_64.manylinux_2_35_x86_64.whl) |
+| `torch-generic-nms` | Not hosted yet | [`torch_generic_nms-0.1+cu130torch2.11-cp312-cp312-manylinux_2_34_x86_64.manylinux_2_35_x86_64.whl`](https://github.com/PozzettiAndrea/cuda-wheels/releases/download/torch_generic_nms-latest/torch_generic_nms-0.1%2Bcu130torch2.11-cp312-cp312-manylinux_2_34_x86_64.manylinux_2_35_x86_64.whl) |
+| `flash-attn` | Not hosted yet | [`flash_attn-2.8.3+cu130torch2.10-cp312-cp312-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl`](https://github.com/PozzettiAndrea/cuda-wheels/releases/download/flash_attn-latest/flash_attn-2.8.3%2Bcu130torch2.10-cp312-cp312-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl) |
 
 On first launch, ComfyUI runs this setup automatically. Later launches only run it again if something it installed is missing.
 

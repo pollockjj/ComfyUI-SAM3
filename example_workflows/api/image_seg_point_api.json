@@ -1,0 +1,102 @@
+{
+  "1": {
+    "inputs": {
+      "image": "example_image.jpg"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Load Image"
+    }
+  },
+  "15": {
+    "inputs": {
+      "points_store": "{\"positive\":[{\"x\":426.27735719657574,\"y\":321.42611685978835},{\"x\":417.13743597288953,\"y\":407.3413796907987},{\"x\":431.76130993078743,\"y\":549.9241563039649}],\"negative\":[]}",
+      "coordinates": "[{\"x\":426.27735719657574,\"y\":321.42611685978835},{\"x\":417.13743597288953,\"y\":407.3413796907987},{\"x\":431.76130993078743,\"y\":549.9241563039649}]",
+      "neg_coordinates": "[]",
+      "canvas": "",
+      "image": [
+        "1",
+        0
+      ]
+    },
+    "class_type": "SAM3PointCollector",
+    "_meta": {
+      "title": "SAM3 Point Collector"
+    }
+  },
+  "30": {
+    "inputs": {
+      "precision": "auto",
+      "compile": false
+    },
+    "class_type": "LoadSAM3Model",
+    "_meta": {
+      "title": "(Down)Load SAM3 Model"
+    }
+  },
+  "31": {
+    "inputs": {
+      "refinement_iterations": 0,
+      "use_multimask": true,
+      "output_best_mask": true,
+      "sam3_model_config": [
+        "30",
+        0
+      ],
+      "image": [
+        "1",
+        0
+      ],
+      "positive_points": [
+        "15",
+        0
+      ],
+      "negative_points": [
+        "15",
+        1
+      ]
+    },
+    "class_type": "SAM3Segmentation",
+    "_meta": {
+      "title": "SAM3 Point Segmentation"
+    }
+  },
+  "32": {
+    "inputs": {
+      "filename_prefix": "Sam3_pyisolate_image",
+      "images": [
+        "31",
+        2
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "33": {
+    "inputs": {
+      "mask": [
+        "31",
+        0
+      ]
+    },
+    "class_type": "MaskToImage",
+    "_meta": {
+      "title": "Convert Mask to Image"
+    }
+  },
+  "34": {
+    "inputs": {
+      "filename_prefix": "ComfyUI",
+      "images": [
+        "33",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  }
+}

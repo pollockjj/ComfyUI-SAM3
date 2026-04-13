@@ -1,0 +1,180 @@
+{
+  "13": {
+    "inputs": {
+      "fps": 30,
+      "images": [
+        "14",
+        0
+      ]
+    },
+    "class_type": "CreateVideo",
+    "_meta": {
+      "title": "Create Video"
+    }
+  },
+  "14": {
+    "inputs": {
+      "mask": [
+        "21",
+        0
+      ]
+    },
+    "class_type": "MaskToImage",
+    "_meta": {
+      "title": "Convert Mask to Image"
+    }
+  },
+  "15": {
+    "inputs": {
+      "filename_prefix": "Sam3_pyisolate_video_mask",
+      "format": "auto",
+      "codec": "auto",
+      "video-preview": "",
+      "video": [
+        "13",
+        0
+      ]
+    },
+    "class_type": "SaveVideo",
+    "_meta": {
+      "title": "Save Video"
+    }
+  },
+  "21": {
+    "inputs": {
+      "obj_id": 0,
+      "plot_all_masks": true,
+      "masks": [
+        "35",
+        0
+      ],
+      "video_state": [
+        "35",
+        2
+      ],
+      "scores": [
+        "35",
+        1
+      ]
+    },
+    "class_type": "SAM3VideoOutput",
+    "_meta": {
+      "title": "SAM3 Video Output"
+    }
+  },
+  "24": {
+    "inputs": {
+      "fps": 30,
+      "images": [
+        "21",
+        2
+      ]
+    },
+    "class_type": "CreateVideo",
+    "_meta": {
+      "title": "Create Video"
+    }
+  },
+  "25": {
+    "inputs": {
+      "filename_prefix": "Sam3_pyisolate_video",
+      "format": "auto",
+      "codec": "auto",
+      "video-preview": "",
+      "video": [
+        "24",
+        0
+      ]
+    },
+    "class_type": "SaveVideo",
+    "_meta": {
+      "title": "Save Video"
+    }
+  },
+  "27": {
+    "inputs": {
+      "prompt_mode": "point",
+      "frame_idx": 0.3,
+      "score_threshold": 0.3,
+      "video_frames": [
+        "37",
+        0
+      ],
+      "positive_points": [
+        "28",
+        0
+      ]
+    },
+    "class_type": "SAM3VideoSegmentation",
+    "_meta": {
+      "title": "SAM3 Video Segmentation"
+    }
+  },
+  "28": {
+    "inputs": {
+      "points_store": "{\"positive\":[{\"x\":365.8296849641195,\"y\":82.1138596932428},{\"x\":389.5481601701001,\"y\":179.95494578458334},{\"x\":413.26663537608084,\"y\":52.465045726169905}],\"negative\":[]}",
+      "coordinates": "[{\"x\":365.8296849641195,\"y\":82.1138596932428},{\"x\":389.5481601701001,\"y\":179.95494578458334},{\"x\":413.26663537608084,\"y\":52.465045726169905}]",
+      "neg_coordinates": "[]",
+      "canvas": "",
+      "image": [
+        "37",
+        0
+      ]
+    },
+    "class_type": "SAM3PointCollector",
+    "_meta": {
+      "title": "SAM3 Point Collector"
+    }
+  },
+  "30": {
+    "inputs": {
+      "precision": "auto",
+      "compile": false
+    },
+    "class_type": "LoadSAM3Model",
+    "_meta": {
+      "title": "(Down)Load SAM3 Model"
+    }
+  },
+  "35": {
+    "inputs": {
+      "start_frame": 0,
+      "end_frame": -1,
+      "direction": "forward",
+      "sam3_model_config": [
+        "30",
+        0
+      ],
+      "video_state": [
+        "27",
+        0
+      ]
+    },
+    "class_type": "SAM3Propagate",
+    "_meta": {
+      "title": "SAM3 Propagate"
+    }
+  },
+  "36": {
+    "inputs": {
+      "file": "bedroom.mp4",
+      "video-preview": ""
+    },
+    "class_type": "LoadVideo",
+    "_meta": {
+      "title": "Load Video"
+    }
+  },
+  "37": {
+    "inputs": {
+      "video": [
+        "36",
+        0
+      ]
+    },
+    "class_type": "GetVideoComponents",
+    "_meta": {
+      "title": "Get Video Components"
+    }
+  }
+}

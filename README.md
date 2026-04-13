@@ -26,9 +26,9 @@ These are wheel installs, not source builds. Right now the installer pulls them 
 
 | Package | ComfyOrg Hosting | 3rd Party Hosting |
 |:--|:--|:--|
-| `cc-torch` | Not hosted yet | [`cc_torch-0.2+cu130torch2.11-cp312-cp312-manylinux_2_34_x86_64.manylinux_2_35_x86_64.whl`](https://github.com/PozzettiAndrea/cuda-wheels/releases/download/cc_torch-latest/cc_torch-0.2%2Bcu130torch2.11-cp312-cp312-manylinux_2_34_x86_64.manylinux_2_35_x86_64.whl) |
-| `torch-generic-nms` | Not hosted yet | [`torch_generic_nms-0.1+cu130torch2.11-cp312-cp312-manylinux_2_34_x86_64.manylinux_2_35_x86_64.whl`](https://github.com/PozzettiAndrea/cuda-wheels/releases/download/torch_generic_nms-latest/torch_generic_nms-0.1%2Bcu130torch2.11-cp312-cp312-manylinux_2_34_x86_64.manylinux_2_35_x86_64.whl) |
-| `flash-attn` | Not hosted yet | [`flash_attn-2.8.3+cu130torch2.10-cp312-cp312-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl`](https://github.com/PozzettiAndrea/cuda-wheels/releases/download/flash_attn-latest/flash_attn-2.8.3%2Bcu130torch2.10-cp312-cp312-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl) |
+| `cc-torch` | Not hosted yet | [PozzettiAndrea/cuda-wheels `cc_torch-latest`](https://github.com/PozzettiAndrea/cuda-wheels/releases/tag/cc_torch-latest) |
+| `torch-generic-nms` | Not hosted yet | [PozzettiAndrea/cuda-wheels `torch_generic_nms-latest`](https://github.com/PozzettiAndrea/cuda-wheels/releases/tag/torch_generic_nms-latest) |
+| `flash-attn` | Not hosted yet | [PozzettiAndrea/cuda-wheels `flash_attn-latest`](https://github.com/PozzettiAndrea/cuda-wheels/releases/tag/flash_attn-latest) |
 
 On first launch, ComfyUI runs this setup automatically. Later launches only run it again if something it installed is missing.
 

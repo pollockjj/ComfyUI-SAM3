@@ -20,9 +20,9 @@ The install script does three things:
 
    | Extra wheel | ComfyOrg Hosting | 3rd Party Hosting |
    |:--|:--|:--|
-   | `cc-torch` | [pollockjj/wheels `cc_torch-latest`](https://github.com/pollockjj/wheels/releases/tag/cc_torch-latest) | [PozzettiAndrea/cuda-wheels `cc_torch-latest`](https://github.com/PozzettiAndrea/cuda-wheels/releases/tag/cc_torch-latest) |
-   | `torch-generic-nms` | [pollockjj/wheels `torch_generic_nms-latest`](https://github.com/pollockjj/wheels/releases/tag/torch_generic_nms-latest) (Coming Soon!) | [PozzettiAndrea/cuda-wheels `torch_generic_nms-latest`](https://github.com/PozzettiAndrea/cuda-wheels/releases/tag/torch_generic_nms-latest) |
-   | `flash-attn` | [pollockjj/wheels `flash_attn-latest`](https://github.com/pollockjj/wheels/releases/tag/flash_attn-latest) (Coming Soon!) | [PozzettiAndrea/cuda-wheels `flash_attn-latest`](https://github.com/PozzettiAndrea/cuda-wheels/releases/tag/flash_attn-latest) |
+   | `cc-torch` | [Comfy-Org/wheels `cc_torch-latest`](https://github.com/Comfy-Org/wheels/releases/tag/cc_torch-latest) | [PozzettiAndrea/cuda-wheels `cc_torch-latest`](https://github.com/PozzettiAndrea/cuda-wheels/releases/tag/cc_torch-latest) |
+   | `torch-generic-nms` | [Comfy-Org/wheels `torch_generic_nms-latest`](https://github.com/Comfy-Org/wheels/releases/tag/torch_generic_nms-latest) (Coming Soon!) | [PozzettiAndrea/cuda-wheels `torch_generic_nms-latest`](https://github.com/PozzettiAndrea/cuda-wheels/releases/tag/torch_generic_nms-latest) |
+   | `flash-attn` | [Comfy-Org/wheels `flash_attn-latest`](https://github.com/Comfy-Org/wheels/releases/tag/flash_attn-latest) (Coming Soon!) | [PozzettiAndrea/cuda-wheels `flash_attn-latest`](https://github.com/PozzettiAndrea/cuda-wheels/releases/tag/flash_attn-latest) |
 
 2. Copies these bundled example files into your ComfyUI `input/` directory:
 

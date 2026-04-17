@@ -18,15 +18,15 @@ RECEIPT_FILE = REPO_ROOT / ".sam3_install_receipt.json"
 SITE_PACKAGES = Path(sys.prefix) / f"lib/python{sys.version_info.major}.{sys.version_info.minor}/site-packages"
 SPECIAL_WHEEL_INDEX_CANDIDATES = {
     "cc-torch": (
-        "https://pollockjj.github.io/wheels/cc-torch/",
+        "https://comfy-org.github.io/wheels/cc-torch/",
         "https://pozzettiandrea.github.io/cuda-wheels/cc-torch/",
     ),
     "torch-generic-nms": (
-        "https://pollockjj.github.io/wheels/torch-generic-nms/",
+        "https://comfy-org.github.io/wheels/torch-generic-nms/",
         "https://pozzettiandrea.github.io/cuda-wheels/torch-generic-nms/",
     ),
     "flash-attn": (
-        "https://pollockjj.github.io/wheels/flash-attn/",
+        "https://comfy-org.github.io/wheels/flash-attn/",
         "https://pozzettiandrea.github.io/cuda-wheels/flash-attn/",
     ),
 }
